@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 
 let user = createSlice({
   name: 'user',
-  initialState: { user: {}, profile: {} },
+  initialState: { user: {}, profile: {}, loading: false },
   reducers: {
     currentUserInfo: (state, action) => {
       state.user = action.payload;
@@ -10,7 +10,10 @@ let user = createSlice({
     getProfile: (state, action) => {
       state.profile = action.payload;
     },
+    setLoading: (state, action) => {
+      state.loading = action.payload;
+    },
   },
 });
-export let { currentUserInfo, getProfile } = user.actions;
+export let { currentUserInfo, getProfile, setLoading } = user.actions;
 export default user.reducer;
