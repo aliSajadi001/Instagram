@@ -1,6 +1,5 @@
 import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import Login from './pages/register/Login';
-import Home from './pages/Home';
 import Signup from './pages/register/Signup';
 import { Toaster } from 'react-hot-toast';
 import LeftBar from './component/LeftBar';
@@ -9,31 +8,38 @@ import { GoHomeFill } from 'react-icons/go';
 import { IoSearch } from 'react-icons/io5';
 import { FiTv } from 'react-icons/fi';
 import { FaRegHeart } from 'react-icons/fa6';
-import isLogin from './hooks/isLogin';
 import { useSelector } from 'react-redux';
 import CreatePost from './component/CreatePost';
+import Home from './pages/Home';
+import isLogin from './hooks/isLogin';
 function App() {
-  let navigate = useNavigate();
   isLogin();
+  let navigate = useNavigate();
   let { user, loading } = useSelector((state) => state?.user);
-  if (Object.values(user).length === 0 && !loading) {
-    navigate('/login');
-  }
   let { pathname } = useLocation();
   let [openPost, setOpenPost] = useState(false);
+  useEffect(() => {
+    if (openPost) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+  }, [openPost]);
   let [path, setPath] = useState('');
   useEffect(() => {
     if (path === '/') {
       navigate('/');
     } else if (path === '/create-post') {
       setOpenPost(true);
-      
     } else if (path === `/profile/${user?._id}`) {
       navigate(`/profile/${user?._id}`);
     } else if (path === '/message') {
       navigate('/message');
     }
   }, [path]);
+  let isHidden = pathname.startsWith('/message');
+  let isHiddenLeft =
+    pathname.startsWith('/login') || pathname.startsWith('/signup');
   if (loading) {
     return (
       <div className="w-full h-screen bg-white flex flex-col items-center justify-between  ">
@@ -44,14 +50,8 @@ function App() {
             className="  md:w-[200px] md:h-[200px] w-[140px] h-[140px] "
           />
         </div>
-
         <div className="flex flex-col items-center justify-center w-full ">
           <p className="text-stone-400 font-medium">from</p>
-          <img
-            src="https://static01.nyt.com/images/2021/11/09/business/00meta-logo-grid-2/00meta-logo-grid-2-mobileMasterAt3x.jpg?auto=webp&quality=90"
-            alt="instalogo"
-            className="flex flex-1 items-center justify-center w-[70px] h-[40px] rounded-[5px] "
-          />
         </div>
       </div>
     );
@@ -66,20 +66,20 @@ function App() {
           </div>
         )}
         <div className="flex  justify-center  relative">
-          {Object.values(user).length > 0 && (
+          {!isHiddenLeft && (
             <div className="border h-full hidden md:block fixed top-0 left-0 z-10">
               <LeftBar setPath={setPath} path={path} />
             </div>
           )}
           <div className=" flex-1 flex justify-center">
             <Routes>
-              <Route path="/" element={<Home />} />
+              <Route path="/" element={<Home setPath={setPath} />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
             </Routes>
             <Toaster />
           </div>
-          {!pathname.startsWith('/message') && (
+          {!isHidden && (
             <>
               <div className="fixed bottom-0 w-full h-[40px] border-t bg-white sm:hidden flex items-center justify-around z-20">
                 <GoHomeFill className="text-lg cursor-pointer" />
