@@ -12,6 +12,8 @@ import { useSelector } from 'react-redux';
 import CreatePost from './component/CreatePost';
 import Home from './pages/Home';
 import isLogin from './hooks/isLogin';
+import Profile from './pages/Profile';
+import EditProfile from './pages/EditProfile';
 function App() {
   isLogin();
   let navigate = useNavigate();
@@ -76,6 +78,8 @@ function App() {
               <Route path="/" element={<Home setPath={setPath} />} />
               <Route path="/login" element={<Login />} />
               <Route path="/signup" element={<Signup />} />
+              <Route path="/profile/:id" element={<Profile />} />
+              <Route path="/edit-profile" element={<EditProfile />} />
             </Routes>
             <Toaster />
           </div>

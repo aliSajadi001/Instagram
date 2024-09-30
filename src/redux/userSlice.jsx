@@ -8,6 +8,7 @@ let user = createSlice({
     loading: false,
     suggestUsers: [],
     storis: [],
+    profileInfo: [],
   },
   reducers: {
     currentUserInfo: (state, action) => {
@@ -25,6 +26,9 @@ let user = createSlice({
     getStoris: (state, action) => {
       state.storis = action.payload;
     },
+    getProfileInfo: (state, action) => {
+      state.profileInfo = action.payload;
+    },
   },
 });
 export let {
@@ -33,5 +37,6 @@ export let {
   setLoading,
   getSuggestUser,
   getStoris,
+  getProfileInfo,
 } = user.actions;
 export default user.reducer;
