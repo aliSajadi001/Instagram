@@ -91,7 +91,7 @@ function CreatePost({ setOpenCreatePost, setPath }) {
       <form
         onSubmit={handleSubmit}
         ref={commentRef}
-        className="flex md:w-[40%] md:h-[70%] w-full mt-2 justify-around gap-2 flex-col bg-white rounded-lg ">
+        className="flex md:w-[40%] md:h-[70%] max-h-[90%] w-full mt-2 justify-between gap-2 flex-col bg-white rounded-lg ">
         <div className="border-b border-black w-full py-1 relative">
           <p className="flex items-center justify-center  text-sm font-medium">
             Create new post

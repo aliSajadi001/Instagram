@@ -15,6 +15,8 @@ import Axios from '../Axios/axios';
 import CommentSmall from './CommentsSmall';
 import Comments from './Comments';
 import useClose from '../hooks/useClose';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { Link } from 'react-router-dom';
 
 function Post({ pst }) {
   let dispatch = useDispatch();
@@ -58,7 +60,7 @@ function Post({ pst }) {
       console.log(error);
     }
   };
-  ///////////////////////// send comments/////////////////
+  //////////////////////send comments/////////////////
 
   let handleComment = async (id) => {
     try {
@@ -79,7 +81,7 @@ function Post({ pst }) {
     }
   };
 
-  ///////////////////////// get comments/////////////////
+  /////////////////////////get all comments/////////////////
   let viewAllComments = async (id) => {
     try {
       let { data } = await Axios.get(`post/getAll-comments/${id}`);
@@ -97,7 +99,7 @@ function Post({ pst }) {
     setShowCommentsSmall(true);
     viewAllComments(id);
   };
-
+  ///////////////////////////saved posts //////////////////////
   let handleSave = async (id) => {
     try {
       let { data } = await Axios.post(`post/save-post/${id}`);
@@ -124,9 +126,9 @@ function Post({ pst }) {
   }, [showComments]);
   return (
     <div className="w-full h-full ">
-      {/* Show modal comments in larg computers */}
+      {/****** Show modal comments in larg computers ******/}
       {showComments && (
-        <div className="  fixed inset-0  flex items-center justify-center md:block bg-black bg-opacity-25 z-50 w-full h-full">
+        <div className="  fixed inset-0  flex items-center justify-center md:block bg-black bg-opacity-25 z-20 w-full h-full">
           <div className="flex items-center justify-center w-full h-full z-50">
             <Comments
               setShowComments={setShowComments}
@@ -137,12 +139,10 @@ function Post({ pst }) {
           </div>
         </div>
       )}
-      {/* Show modal comments in small computers or phons */}
+      {/****** Show modal comments in small computers or phons ******/}
       {ShowCommentsSmall && (
-        <div
-
-          className="  bg-white md:hidden fixed z-50 w-full inset-0  rounded-t-2xl overflow-y-auto">
-          <div className="">
+        <div className=" bg-white md:hidden fixed z-50 w-full inset-0  rounded-t-2xl overflow-y-auto ">
+          <div className="x-50 inset-0">
             <CommentSmall
               setShowComments={setShowCommentsSmall}
               showComments={ShowCommentsSmall}
@@ -152,11 +152,11 @@ function Post({ pst }) {
           </div>
         </div>
       )}
-      {/* Show modal menus in modal comments */}
+      {/******** Show modal menus in modal comments ********/}
 
       {showMenuPost && (
         <div className="fixed inset-0 flex items-center justify-center md:block bg-black bg-opacity-25 z-50 w-[100%] h-[100%]">
-          <div className="flex items-center justify-center border h-screen">
+          <div className="flex items-center justify-center  h-screen">
             <PostMenu setShowMenuPost={setShowMenuPost} postId={singlePost} />
           </div>
         </div>
@@ -165,14 +165,16 @@ function Post({ pst }) {
         <div className="w-full flex flex-col items-center gap-3 py-3">
           {/*---------------------------menu bar--------------------- */}
           <div className="flex items-center justify-between w-full px-3">
-            <div className="flex items-center gap-3 w-full">
+            <Link
+              to={`/profile/${pst?.createBy?._id}`}
+              className="flex items-center gap-3 w-full">
               <img
                 className="w-10 h-10 rounded-full border"
                 src={pst?.createBy?.profile}
                 alt="profile"
               />
               <p className="text-xs font-normal">{pst?.createBy.userName}</p>
-            </div>
+            </Link>
 
             <div>
               <CiMenuKebab
@@ -183,7 +185,7 @@ function Post({ pst }) {
           </div>
           {/*---------------------------post image--------------------- */}
           <div className="w-full ">
-            <img src={pst?.image} alt="post" className="w-full " />
+            <LazyLoadImage src={pst?.image} effect="blur" alt="" />
           </div>
           {/*---------------------------Icons--------------------- */}
           <div className="flex w-full justify-between items-center px-3 text-lg">

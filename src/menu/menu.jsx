@@ -4,8 +4,7 @@ import { MdOutlineExplore } from 'react-icons/md';
 import { TbMessages } from 'react-icons/tb';
 import { FiTv } from 'react-icons/fi';
 import { FaRegHeart } from 'react-icons/fa6';
-import { CiCirclePlus } from 'react-icons/ci';
-import { IoIosLogOut } from 'react-icons/io';
+import { MdOutlineAddCircleOutline } from "react-icons/md";
 import { MdSecurity } from 'react-icons/md';
 import { IoReaderOutline } from 'react-icons/io5';
 import { CgProfile } from 'react-icons/cg';
@@ -66,12 +65,7 @@ export let menu = [
   {
     name: 'Create',
     path: '/create-post',
-    icon: <CiCirclePlus />,
-  },
-  {
-    name: 'Logout',
-    path: '/logout',
-    icon: <IoIosLogOut />,
+    icon: <MdOutlineAddCircleOutline />,
   },
 ];
 

@@ -6,7 +6,7 @@ function SuggesteUsers() {
   useSuggestUser();
   let { suggestUsers } = useSelector((state) => state?.user);
   return (
-    <div className="w-full h-full ">
+    <div className="w-full  h-[350px] overflow-y-auto scrollbar-thin scrollbar-track-black  ">
       {suggestUsers?.length === 0 ? (
         <p className="font-medium text-gray-600">User note found</p>
       ) : (

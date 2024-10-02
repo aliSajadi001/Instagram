@@ -6,10 +6,13 @@ import Post from '../component/Post';
 import useGetPosts from '../hooks/useGetPosts';
 import RightBar from '../component/RightBar';
 import useGetStoris from '../hooks/useGetStoris';
+import { FiPlus } from 'react-icons/fi';
+
 function Home({ setPath }) {
   useGetStoris();
   useGetPosts();
   let { post } = useSelector((state) => state?.post);
+  let { user } = useSelector((state) => state?.user);
   let { storis } = useSelector((state) => state?.user);
   let [isFixed, setFixed] = useState(false);
   let handleScroll = () => {
@@ -45,20 +48,38 @@ function Home({ setPath }) {
                 onClick={() => setPath('/message')}
               />
             </div>
-            <div className="w-full overflow-x-scroll scrollbar-thin scrollbar-track-black flex items-center  gap-3 p-3 ">
-              {storis &&
-                storis.map((stori, i) => (
-                  <div key={i} className="flex flex-col items-center w-full">
-                    <div className="w-[50px] h-[50px] rounded-full p-[2px] border border-red-600">
-                      <img
-                        src={stori?.profile}
-                        alt="profile"
-                        className="rounded-full w-full h-full"
-                      />
+            {/******************storis*******************/}
+            <div className="w-screen md:w-full overflow-x-auto scrollbar-thin scrollbar-track-black flex items-start  gap-3 p-3 ">
+              {/******************My stori***************/}
+              <div className="min-w-[50px] min-h-[50px] sm:w-[50px] sm:h-[50px] md:w-[50px] md:h-[50px] rounded-full p-[2px]  relative ">
+                <div className="w-[50px] h-[50px]">
+                  <img
+                    src={user?.profile}
+                    className="w-full h-full rounded-full flex items-center justify-center "
+                  />
+                </div>
+                <span className="absolute bg-blue-600 rounded-full border border-white text-white top-7 left-9 p-[2px]">
+                  <FiPlus />
+                </span>
+              </div>
+              {/******************Other storis***********/}
+              <div className="flex items-center justify-start gap-3">
+                {storis &&
+                  storis.map((stori, i) => (
+                    <div
+                      key={i}
+                      className="flex flex-col items-center  w-full ">
+                      <div className="w-[50px] h-[50px] rounded-full p-[2px] border border-red-600">
+                        <img
+                          src={stori?.profile}
+                          alt="profile"
+                          className="rounded-full w-full h-full"
+                        />
+                      </div>
+                      <p className="text-xs">{stori?.userName}</p>
                     </div>
-                    <p className="text-xs">{stori?.userName}</p>
-                  </div>
-                ))}
+                  ))}
+              </div>
             </div>
           </div>
           <div className="w-full flex flex-col items-start gap-5 ">

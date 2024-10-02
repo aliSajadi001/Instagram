@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { IoPersonAddOutline } from 'react-icons/io5';
 import { IoAdd } from 'react-icons/io5';
@@ -14,9 +14,12 @@ import { FaAngleDown } from 'react-icons/fa6';
 import { CiAt } from 'react-icons/ci';
 import { CiSquarePlus } from 'react-icons/ci';
 import { LuMenu } from 'react-icons/lu';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
+import { FaArrowLeftLong } from 'react-icons/fa6';
 
 function Profile() {
   let dispatch = useDispatch();
+  let navigate = useNavigate();
   let { id } = useParams();
   useGetProfile(id);
   let { profile, user } = useSelector((state) => state?.user);
@@ -92,9 +95,15 @@ function Profile() {
         <>
           <div className="flex justify-start flex-col w-full gap-3 px-2">
             <div className="flex items-center justify-between pt-3 md:hidden">
-              <div className="flex items-center gap-[2px]">
-                <p className="font-bold md:hidden">{profile?.userName}</p>
-                <FaAngleDown className="text-xs" />
+              <div className="flex items-center gap-[30px]">
+                <FaArrowLeftLong
+                  className="cursor-pointer md:hidden"
+                  onClick={() => navigate('/')}
+                />
+                <div className="flex items-center gap-[2px]">
+                  <p className="font-bold md:hidden">{profile?.userName}</p>
+                  <FaAngleDown className="text-xs" />
+                </div>
               </div>
               <div className="flex items-center space-x-3">
                 <CiAt className="size-5 " />
@@ -183,9 +192,11 @@ function Profile() {
             <div className="flex items-center gap-2 w-full justify-between md:hidden ">
               {isMyAccount ? (
                 <>
-                  <button className="text-xs font-normal md:font-bold bg-stone-100 rounded-md px-5 py-[4px] ">
+                  <Link
+                    to="/edit-profile"
+                    className="text-xs font-normal md:font-bold bg-stone-100 rounded-md px-5 py-[4px] ">
                     Edit profile
-                  </button>
+                  </Link>
                   <button className="text-xs font-normal md:font-bold bg-stone-100 rounded-md px-5 py-[4px] ">
                     Share profile
                   </button>
@@ -193,15 +204,19 @@ function Profile() {
               ) : (
                 <>
                   {isFollow ? (
-                    <button className="text-xs text-white font-bold bg-blue-500 hover:bg-blue-600 rounded-[5px] px-7 py-[4px] ">
+                    <button
+                      onClick={() => handleUnFollowe()}
+                      className="text-xs font-bold bg-stone-100 rounded-[5px] px-7 py-[4px] ">
                       Following
                     </button>
                   ) : (
-                    <button className="text-xs text-white font-bold bg-blue-500 hover:bg-blue-600 rounded-[5px] px-7 py-[4px] ">
+                    <button
+                      onClick={() => handleFollowe()}
+                      className="text-xs text-white font-bold bg-blue-500 hover:bg-blue-600 rounded-[5px] px-7 py-[4px] ">
                       Follow
                     </button>
                   )}
-                  <button className="text-xs font-bold bg-stone-300 hover:bg-stone-400 rounded-[5px] px-7 py-[4px] ">
+                  <button className="text-xs font-bold bg-stone-100 hover:bg-stone-400 rounded-[5px] px-7 py-[4px] ">
                     Message
                   </button>
                 </>
@@ -268,13 +283,16 @@ function Profile() {
                         </div>
                       ) : (
                         <>
-                          <div className="w-full  grid grid-cols-3 md:grid-cols-4 gap-[1px]">
+                          <div className="w-full grid grid-cols-3 md:grid-cols-4 gap-[2px]">
                             {profileInfo?.map((post) => (
-                              <section key={post._id}>
-                                <img
+                              <section
+                                key={post._id}
+                                className="w-full max-h-[70px] md:max-h-[150px]">
+                                <LazyLoadImage
+                                  className="w-full h-full  object-cover inset-0"
                                   src={post.image}
+                                  effct="blur"
                                   alt="ppst"
-                                  className="w-full h-[90px] md:h-[140px]"
                                 />
                               </section>
                             ))}

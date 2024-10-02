@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import uploadFile from '../hellper/cloudinary';
 import {
@@ -16,16 +16,18 @@ import {
 import { useLocation, useNavigate } from 'react-router-dom';
 import Axios from '../Axios/axios';
 import toast from 'react-hot-toast';
+import { currentUserInfo } from '../redux/userSlice';
 function EditProfile() {
   let navigate = useNavigate();
   let { pathname } = useLocation();
   let { user } = useSelector((state) => state?.user);
+  let dispatch = useDispatch();
   let [userName, setUserName] = useState(user?.userName);
   let [bio, setBio] = useState(user?.bio);
   let [loading, setLoading] = useState(false);
   let [profile, setProfile] = useState(user?.profile);
   let [gender, setGender] = useState(user?.gender);
-
+  ////////////////// convert image to dataUrl/////////////
   let handleImage = async (image) => {
     try {
       setLoading(true);
@@ -45,7 +47,7 @@ function EditProfile() {
       document.body.style.overflow = 'hidden';
     }
   }, [pathname]);
-
+  ////////////////Send and Get changed information//////////////
   let handleSubmit = async () => {
     try {
       setLoading(true);
@@ -56,6 +58,14 @@ function EditProfile() {
         gender,
       });
       if (data?.success) {
+        dispatch(
+          currentUserInfo({
+            profile: data.user.profile,
+            userName: data.user.userName,
+            bio: data.user.bio,
+            _id: data.user._id,
+          })
+        );
         toast.success(data.message);
         navigate(`/profile/${user._id}`);
       } else {
@@ -70,7 +80,8 @@ function EditProfile() {
   return (
     <div className="flex justify-end w-full h-full ">
       <div className=" flex md:w-5/6  h-screen ">
-        {/* settings*/}
+        {/***********settings section***********/}
+
         <div className="w-1/4  p-4 flex flex-col gap-3  overflow-y-scroll scrollbar-thin scrollbar-track-black hidden lg:block">
           <p className="font-medium pl-9">Settings</p>
           {/*Box */}
@@ -212,7 +223,7 @@ function EditProfile() {
             </div>
           </div>
         </div>
-        {/* edit profile*/}
+        {/***************edit profile section***************/}
         <div className="flex w-full flex-1 justify-start  overflow-y-scroll">
           <div className="flex flex-col h-screen p-5 lg:px-28 md:px-16 py-10 w-full gap-9">
             <p className="font-medium text-xl">Edit profile</p>
@@ -248,7 +259,7 @@ function EditProfile() {
                   onChange={(e) => handleImage(e.target.files[0])}
                 />
               </div>
-              {/* website */}
+              {/******************website******************/}
               <div className="flex flex-col w-full gap-3">
                 <p className="text-lg font-medium">Name</p>
                 <input
@@ -257,7 +268,7 @@ function EditProfile() {
                   className="outline-none w-full border border-stone-300 text-sm font-normal rounded-2xl px-3 py-3 "
                 />
               </div>
-              {/* website */}
+              {/******************website******************/}
               <div className="flex flex-col justify-start gap-3 w-full">
                 <p className=" font-medium w-full">Website</p>
                 <div className="flex flex-col w-full items-start">
@@ -271,7 +282,7 @@ function EditProfile() {
                   </p>
                 </div>
               </div>
-              {/*Bio */}
+              {/******************Bio section******************/}
               <div className="flex flex-col w-full gap-3">
                 <p className="text-lg font-medium">Bio</p>
                 <textarea
@@ -282,7 +293,7 @@ function EditProfile() {
                   contextMenu="bio"
                   className="outline-none w-full border border-stone-300 text-sm font-normal rounded-2xl px-3 py-1"></textarea>
               </div>
-              {/*Gender */}
+              {/******************Gender******************/}
               <div className="flex flex-col w-full gap-3">
                 <p className="text-lg font-medium">Gender</p>
                 <select
@@ -296,7 +307,7 @@ function EditProfile() {
                   This won't be part of your public profile.
                 </p>
               </div>
-              {/*Show account */}
+              {/******************Show account******************/}
               <div className="flex flex-col w-full gap-3 ">
                 <p className="text-lg font-medium">
                   Show account suggestions on profile

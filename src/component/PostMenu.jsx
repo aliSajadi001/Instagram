@@ -10,6 +10,7 @@ function PostMenu({ setShowMenuPost, postId }) {
   let dispatch = useDispatch();
   let [show, setShow] = useState(false);
   let { user } = useSelector((state) => state?.user);
+
   useEffect(() => {
     if (user?._id === postId?.createBy?._id) {
       setShow(true);
@@ -25,7 +26,6 @@ function PostMenu({ setShowMenuPost, postId }) {
     try {
       let { data } = await Axios.post(`post/delete-post/${id}`);
       if (data?.success) {
-
         toast.success(data.message);
         dispatch(allPost(post.filter((pst) => pst?._id !== id)));
       }

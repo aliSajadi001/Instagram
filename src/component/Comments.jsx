@@ -22,6 +22,7 @@ function Comments({ setShowComments, showComments, setComments, allComment }) {
       dispatch(getPost({}));
     }
   }, [showComments]);
+  
   let { singlePost } = useSelector((state) => state?.comment);
   let { allcomments } = useSelector((state) => state?.comment);
 

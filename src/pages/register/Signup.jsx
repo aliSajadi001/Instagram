@@ -69,7 +69,7 @@ function Signup() {
     <form
       onSubmit={handleSubmit}
       className="w-full h-screen flex items-center justify-center  background ">
-      <div className="flex flex-col items-center justify-center gap-5 h-[70%] sm:h-[90%] rounded-xl bg-white bg-opacity-15 backdrop-blur-sm w-[90%] sm:w-[70%] md:w-[60%] xl:w-[40%]">
+      <div className="flex flex-col items-center justify-center gap-5 h-[70%] sm:h-[90%] rounded-xl bg-white bg-opacity-15 backdrop-blur-sm w-[90%] sm:w-[70%] md:w-[60%] xl:w-[40%] relative">
         <div>
           <img
             src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Instagram_logo.svg/640px-Instagram_logo.svg.png"
@@ -138,9 +138,15 @@ function Signup() {
         )}
         <button
           disabled={loading}
-          className="w-[80%] text-white disabled:cursor-not-allowed sm:w-[400px] py-1 rounded-lg font-medium text-lg disabled:bg-blue-300 bg-blue-500 ">
-          Signup
+          className="w-[80%] text-white disabled:cursor-not-allowed sm:w-[400px] md:py-1 rounded-lg font-medium md:text-lg text-sm py-2 disabled:bg-blue-300 bg-blue-500 ">
+          Next
         </button>
+        <span
+          onClick={() => navigate('/login')}
+          className="text-stone-300 text-xs flex items-center gap-1 cursor-pointer fixed bottom-2">
+          Already have an account?
+          <span className="text-blue-800 font-medium"> Login</span>
+        </span>
       </div>
     </form>
   );

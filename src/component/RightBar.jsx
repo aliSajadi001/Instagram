@@ -23,7 +23,7 @@ function RightBar() {
           <p className="font-normal text-sm py-3">SuggesteUsers</p>
           <p className="font-bold text-sm">See All</p>
         </div>
-        {/*suggeste user component */}
+        {/**********suggeste user component **********/}
         <SuggesteUsers />
       </div>
     </div>
